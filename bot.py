@@ -1,23 +1,15 @@
 import requests
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
-
 TOKEN = "8780934896:AAHrlDn778kbn5OLSwNMZ2qezf_rFVhPUHI"
-
 async def lookup(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
     number = update.message.text
-
     api = f"https://all.proportalxc.workers.dev/number?number={number}"
-
     r = requests.get(api)
     data = r.json()
-
    if data.get("result", {}).get("success"):
-
     records = data["result"]["result"]
     output = ""
-
     for r in records:
         output += (
             f"📱 Mobile : {r.get('mobile', 'N/A')}\n"
@@ -29,12 +21,9 @@ async def lookup(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"📧 Mail : {r.get('mail', 'N/A')}\n"
             f"━━━━━━━━━━━━━━━━━━\n"
         )
-
     output += "\n👨‍💻 API Developer : Cybershiva"
-
 else:
     output = "❌ Invalid Number"
-
 await update.message.reply_text(output)
 
 app = ApplicationBuilder().token(TOKEN).build()
